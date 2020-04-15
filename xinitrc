@@ -45,7 +45,7 @@ setxkbmap -option ctrl:nocaps
 
 xrandr --auto
 xrandr --dpi 220
-exec $(get_session)
+exec $DEFAULT_SESSION
 
 # Configure keyboard layout
 ## Switchinf between English (us) and German (de) with AltGr key.
