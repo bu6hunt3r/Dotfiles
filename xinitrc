@@ -49,4 +49,4 @@ exec $DEFAULT_SESSION
 
 # Configure keyboard layout
 ## Switchinf between English (us) and German (de) with AltGr key.
-setxkbmap -layout de,us -variant ,bas_phonetic -option grp:switch 
+setxkbmap de
