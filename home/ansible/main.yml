@@ -128,6 +128,7 @@
           - virtualbox-ext-oracle
           # play midi files
           - vlc-plugin-fluidsynth
+          - zsh
         # skip_installed: yes
       become: yes
       become_user: aur_builder
@@ -197,7 +198,28 @@
           [Install]
           WantedBy=sleep.target
           WantedBy=suspend.target
-
+    - name: Enable wakelock service
+      systemd:
+        enabled: yes
+        name: wakelock
+    - name: Enable and start acpid service
+      systemd:
+        enabled: yes
+        name: acpid
+        state: started
+    - name: Add NTP servers to chrony config
+      blockinfile:
+        path: /etc/chrony.conf
+        content: |
+          server 0.de.pool.ntp.org
+          server 1.de.pool.ntp.org
+          server 2.de.pool.ntp.org
+          server 3.de.pool.ntp.org
+    - name: Enable and start chronyd service
+      systemd:
+        enabled: yes
+        state: started
+        name: chronyd
     - name: Configure TLP
       copy:
         force: yes
