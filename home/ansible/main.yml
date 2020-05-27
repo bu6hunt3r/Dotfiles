@@ -1,0 +1,210 @@
+---
+- name: My Thinkpad X1 laptop provisioning
+  hosts: localhost
+  become: yes
+  vars:
+    gen_warning: "WARNING! This file is conmtrolled by Ansible."
+    local_home: "{{ lookup('env','HOME') }}"
+    local_user: "{{ lookup('env','USER') }}"
+  tasks:
+    - name: create and setup aur_builder user
+      user: name=aur_builder
+    - name: grant aur_builder more permissions
+      lineinfile:
+        path: /etc/sudoers.d/aur_builder-allow-to-sudo-pacman
+        state: present
+        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        validate: /usr/bin/visudo -cf %s
+        create: yes
+    - name: create dev dir
+      file:
+        path: "{{ local_home }}/dev"
+        state: directory
+        mode: '0755'
+    - name: Query Installation of package installation / pacman
+      pause:
+        prompt: "Do you want to install packages via pacman (yes/no)?"
+      register: install_pacman
+    - name: packages
+      pacman:
+        update_cache: yes
+        name:
+          - mc
+          - zip
+          - tree
+          - unzip
+          - unrar
+          # Command-line JSON processor
+          - jq
+          - xf86-video-intel
+          - xorg
+          - xorg-xinit
+          - i3
+          - i3lock
+          - xf86-input-libinput
+          - chrony
+          # An extensible i3status replacement/wrapper written in python
+          - py3status
+          - dmenu
+          # A library for layout and rendering of text
+          - pango
+          - ttf-dejavu
+          # Display graphical dialog boxes from shell scripts
+          - zenity
+          # rovides the official utilities for managing XDG MIME Applications
+          - xdg-utils
+          - perl-file-mimeinfo
+          # lightweight replacement for the notification-daemons provided by most desktop environments
+          - dunst
+          - htop
+          - tor
+          - fwupd
+          - wget
+          - pulseaudio
+          - blueman
+          - pulseaudio-bluetooth
+          # D-Bus interfaces used to query and manipulate storage devices
+          - udiskie
+          - docker
+          - docker-compose
+          # achine management for a container-centric world
+          - docker-machine
+          - virtualbox-host-modules-arch
+          - virtualbox
+          - virtualbox-guest-iso
+          - acpi
+          # flexible and extensible daemon for delivering ACPI events
+          - acpid
+          - ttf-opensans
+          - xclip
+          # advanced power management for Linux
+          - tlp
+          # set of kernel modules that retrieves information from and conveys commands to the hardware of many ThinkPad laptops
+          - tp_smapi
+          - acpi_call
+          - ethtool
+          - efibootmgr
+          - iotop
+          - picom
+          - hsetroot
+          - telegram-desktop
+          - pavucontrol
+          - vlc
+          - sof-firmware
+          - texlive-most
+          - gummi
+          - inkscape
+          - soundfont-fluid
+          - tmux
+          - fish
+      when: hostvars['localhost']['install_pacman']['user_input'] == 'yes'
+    - name: AUR packages
+      aur:
+        name:
+          # Unicode enabled rxvt-clone terminal emulator (urxvt) with fixed font spacing
+          - rxvt-unicode-patched
+          # Allows ~/.xinitrc to be run as a session from your display manager
+          - xinit-xsession
+          # - networkmanager-dispatcher-chrony
+          # A fast desktop menu 
+          - j4-dmenu-desktop-git
+          # Control pulseaudio volume from the shell or mapped to keyboard shortcuts.
+          - pulseaudio-ctl
+          # screenshot software
+          - flameshot-git
+          # - jetbrains-toolbox
+          # protect from eye strain
+          - safeeyes
+          # - google-chrome
+          # - watson
+          # zsh plugin manager
+          - antibody
+          # A modern and intuitive terminal-based text editor 
+          - micro
+          # - vk-messenger
+          # An open source Linux client for Google Drive with support for the new Drive REST API
+          # - grive
+          - xkb-switch
+          - virtualbox-ext-oracle
+          # play midi files
+          - vlc-plugin-fluidsynth
+        # skip_installed: yes
+      become: yes
+      become_user: aur_builder
+
+    - name: generate Xorg fonts index 100dpi
+      command: mkfontdir /usr/share/fonts/100dpi
+
+    - name: set x keyboard layout
+      blockinfile:
+        path: "/etc/X11/xorg.conf.d/00-keyboard.conf"
+        create: yes
+        content: |
+          Section "InputClass"
+            Identifier "system-keyboard"
+            MatchIsKeyboard "on"
+            Option "XkbLayout" "de,us"
+            Option "XkbOptions" "grp:caps_toggle,grp_led:caps"
+          EndSection
+    - name: enable Tap-To-Click
+      blockinfile:
+        path: "/etc/X11/xorg.conf.d/10-touchpad.conf"
+        create: yes
+        content: |
+          Section "InputClass"
+            Identifier ""
+            Driver "libinput"
+            Option "Tapping" "on"
+          EndSection
+    - name: Configure Volume Control Buttons
+      blockinfile:
+        path: "/usr/share/pulseaudio/alsa-mixer/paths/analog-output.conf.common" 
+        marker: "; {mark} ANSIBLE MANAGED BLOCK"
+        insertbefore: \[Element PCM\]
+        content: |
+          [Element Master]
+          switch = mute
+          volume = ignore
+    - name: Configure Backlight Control / UP
+      copy:
+        content: | 
+          # {{ gen_warning }}
+          event=video/brightnessdown BRTDN 00000087 00000000
+          action=/etc/acpi/lenovo_brightness.sh -d
+        dest: /etc/acpi/events/lenovo_scr_brdown
+    - name: Configure Backlight Control / DOWN
+      copy:
+        content: |
+          # {{ gen_warning }}
+          event=video/brightnessup BRTUP 00000086 00000000
+          action=/etc/acpi/lenovo_brightness.sh -i
+        dest: /etc/acpi/events/lenovo_scr_brup
+    - name: Lock screen automatically from wake from sleep (suspend)
+      blockinfile:
+        path: "/etc/systemd/system/wakelock.service"
+        create: yes
+        content: |
+          [Unit]
+          Description=Runs i3lock from resume from a suspended state
+          Before=systemd-supended.service
+          
+          [Service]
+          User={{ local_user }}
+          Type=forking
+          Environment=DISPLAY=:0
+          ExecStart=/home/{{ local_user }}/scripts/lock-screen.sh
+   
+          [Install]
+          WantedBy=sleep.target
+          WantedBy=suspend.target
+
+    - name: Configure TLP
+      copy:
+        force: yes
+        dest: /etc/default/tlp
+        src: ./configs/tlp
+    - name: Enable and start tlp service
+      systemd:
+        enabled: yes
+        state: started
+        name: tlp
