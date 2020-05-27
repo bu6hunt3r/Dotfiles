@@ -1,1 +1,1 @@
-# dotfile-template
+# dotfiles
