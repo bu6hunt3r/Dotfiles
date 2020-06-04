@@ -1,14 +1,14 @@
 * Aliases settings
 
 ** Ls
- #+BEGIN_SRC shell :tangle ./zshrc
+ #+BEGIN_SRC shell :tangle ./.aliases.zsh
  alias ls='ls --color=auto --group-directories-first -X'
  alias l='ls -lh'
  alias la='l -A'
  #+END_SRC
 
 ** Quick aliases
-#+BEGIN_SRC shell :tangle ./zshrc
+#+BEGIN_SRC shell :tangle ./.aliases.zsh
 alias c='clear'
 alias q='exit'
 alias b='builtin cd ..'
@@ -19,14 +19,14 @@ using $Yellow${0}$Purple ${DOT_PROMPT_CHAR:-$}${Rst}"'
 
 ** Apps
 
-#+BEGIN_SRC shell :tangle ./zshrc
+#+BEGIN_SRC shell :tangle ./.aliases.zsh
 alias tarc='tar -zcvf'
 alias tarx='tar -zxvf'
 #+END_SRC
 
 ** xclip selection clipboard
 
-#+BEGIN_SRC shell :tangle ./zshrc
+#+BEGIN_SRC shell :tangle ./.aliases.zsh
 if [[ -x $(command -v xclip) ]]; then
     alias xsl='xclip -selection clipboard'
 fi
@@ -34,7 +34,7 @@ fi
 
 ** grc
 
-#+BEGIN_SRC shell :tangle ./zshrc
+#+BEGIN_SRC shell :tangle ./.aliases.zsh
 if [[ -z `command grc` ]]; then
     echo "grc is not installed. grc aliases will be ignored."
 else
