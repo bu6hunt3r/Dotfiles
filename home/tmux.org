@@ -1,9 +1,8 @@
-#+TODO: ACTIVE | DISABLED
 * General options
 ** ACTIVE Prevent tmux from renaming the tab when processes change
 #+BEGIN_SRC conf :tangle ./.tmux.conf
-  # Prevent tmux from renaming the tab when processes change
-  set-option -g allow-rename off
+# Prevent tmux from renaming the tab when processes change
+set-option -g allow-rename off
 #+END_SRC
 
 ** ACTIVE Tells tmux up front what shell to expect
