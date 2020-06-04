@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function tangle_files() {
-    DIR="$(pwd)/.."
+    DIR="$(pwd)/home"
     FILES=""
 
     for i in `find $DIR -maxdepth 1 -iname "*.org" -type f`; do
