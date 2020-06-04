@@ -119,6 +119,8 @@
           # - watson
           # zsh plugin manager
           - antibody
+          # generic colourizer
+          - grc
           # A modern and intuitive terminal-based text editor 
           - micro
           # - vk-messenger

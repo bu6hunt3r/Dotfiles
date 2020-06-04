@@ -47,7 +47,6 @@
       when: tpm_test.stat.islnk is not defined
       
       
-      
         
         
   
