@@ -1,0 +1,175 @@
+#+TODO: ACTIVE | DISABLED
+* General options
+** ACTIVE Prevent tmux from renaming the tab when processes change
+#+BEGIN_SRC conf :tangle ./tmux.conf
+  # Prevent tmux from renaming the tab when processes change
+  set-option -g allow-rename off
+#+END_SRC
+
+** ACTIVE Tells tmux up front what shell to expect
+#+BEGIN_SRC conf :tangle ./tmux.conf
+# Tells tmux up front what shell to expect
+def_shell=/bin/zsh
+set-option -g default-shell $def_shell
+#+END_SRC
+
+** ACTIVE Set tab base to 1
+#+BEGIN_SRC conf :tangle ./tmux.conf
+# Set base to 1
+set -g base-index 1
+# Start index of window/pane with 1, because we're humans, not computers
+setw -g pane-base-index 1
+#+END_SRC
+
+** ACTIVE Enable UTF-8 support in status bar
+#+BEGIN_SRC conf :tangle ./tmux.conf
+# Enable UTF-8 support in status bar
+set -g status on
+#+END_SRC
+
+** ACTIVE Increase scrollback lines
+#+BEGIN_SRC conf :tangle ./tmux.conf
+# Increase scrollback lines
+set -g history-limit 30000
+#+END_SRC
+** ACTIVE Renumber windows automatically after removing a window
+#+BEGIN_SRC conf :tangle ./tmux.conf
+set-option -g renumber-windows on
+#+END_SRC
+** DISABLED Tmux in tmux behavior (i.e. while using ssh)
+#+BEGIN_SRC conf ./tmux.conf
+# see: toggle on/off all keybindings · Issue #237 · tmux/tmux - https://github.com/tmux/tmux/issues/237
+# Session is considered to be remote when we ssh into host
+if-shell 'test -n "$SSH_CLIENT"' \
+    'source-file ~/.dotfiles/tmux/tmux.remote.config'
+
+#+END_SRC
+** ACTIVE Toggle on/off tmux keybindings via F12
+toggle on/off all keybindings · Issue #237 · tmux/tmux - https://github.com/tmux/tmux/issues/237
+#+BEGIN_SRC conf :tangle ./tmux.conf
+# see: toggle on/off all keybindings · Issue #237 · tmux/tmux - https://github.com/tmux/tmux/issues/237
+# Also, change some visual styles when window keys are off
+bind -T root F12  \
+  set prefix None \;\
+  set key-table off \;\
+  #set status-style "fg=$color_status_text,bg=$color_window_off_status_bg" \;\
+  #set window-status-current-format "#[fg=$color_window_off_status_bg,bg=$color_window_off_status_current_bg]$separator_powerline_right#[default] #I:#W# #[fg=$color_window_off_status_current_bg,bg=$color_window_off_status_bg]$separator_powerline_right#[default]" \;\
+  #set window-status-current-style "fg=$color_dark,bold,bg=$color_window_off_status_current_bg" \;\
+  if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+  refresh-client -S \;\
+
+bind -T off F12 \
+  set -u prefix \;\
+  set -u key-table \;\
+  set -u status-style \;\
+  set -u window-status-current-style \;\
+  set -u window-status-current-format \;\
+  refresh-client -S
+#+END_SRC
+* Keybindings
+** Rebind prefix
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+#+END_SRC
+
+** Easy Config Reloads
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind r source-file ~/.tmux.conf
+#+END_SRC
+
+** Quick key for moving back to the previous window
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind-key p last-window
+#+END_SRC
+
+** Direction
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+#+END_SRC
+
+** Vim keys in copy and choose mode
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+set-window-option -g mode-keys vi
+#+END_SRC
+
+** Copying selection vim style
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind-key Escape copy-mode			# enter copy mode; default [
+bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
+bind-key -T copy-mode-vi 'V' send-keys -X select-line
+bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
+bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -selection clipboard"
+#+END_SRC
+
+** Vim splits
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind-key y split-window -h
+bind-key x split-window -v
+#+END_SRC
+
+** Moving panes
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind-key g command-prompt -p "join pane from:"  "join-pane -s '%%'"
+bind-key s command-prompt -p "send pane to:"  "join-pane -t '%%'"
+#+END_SRC
+
+** Make resizing panes easier
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind-key Left resize-pane -L 5
+bind-key Right resize-pane -R 5
+bind-key Up resize-pane -U 5
+bind-key Down resize-pane -D 5
+bind-key = select-layout even-vertical
+bind-key | select-layout even-horizontal
+
+# ditched m which had select-pane -m
+# this place a stronger visual cue on the selected pane
+# add bind for mouse support toggle needs tmux 2.2
+bind-key m set -g mouse
+#+END_SRC
+
+** Toggles tmux bar on/off
+
+#+BEGIN_SRC conf :tangle ./tmux.conf
+bind-key - set status
+#+END_SRC
+
+** DISABLED Fast window selection
+
+#+BEGIN_SRC conf
+bind -n F1 select-window -t 1
+bind -n F2 select-window -t 2
+bind -n F3 select-window -t 3
+bind -n F4 select-window -t 4
+bind -n F5 select-window -t 5
+bind -n F6 new-window
+#+END_SRC
+
+** DISABLED Rename tmux window
+
+more info here: http://unix.stackexchange.com/a/269542/155613
+
+#+BEGIN_SRC conf 
+bind -n F7 command-prompt "rename-window '%%'"
+#+END_SRC
+
+** DISABLED Reload tmux config
+
+#+BEGIN_SRC conf 
+bind -n F8 source ~/.tmux.conf
+#+END_SRC

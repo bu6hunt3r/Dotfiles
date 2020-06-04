@@ -20,5 +20,11 @@
     - name: Create dotfile castle via homeshick
       shell: |
         "{{ local_home }}"/.homesick/repos/homeshick/bin/homeshick clone bu6hunt3r/dotfiles
+    - name: Tangle config files with org-mode
+      shell: |
+        chmod u+x "{{ local_home }}"/.homesick/repos/dotfiles/scripts/tangle_configs.sh
+        "{{ local_home }}"/.homesick/repos/dotfiles/scripts/tangle_configs.sh
+        
+        
   
 
