@@ -51,7 +51,8 @@
         state: present
         line: "{{ item.line }}"
       with_items:
-        - { dest: '.zshrc', line: 'source {{ local_home }}/.homesick/repos/homeshick/homeshick.sh' }
+        - { dest: '.zshrc', line: 'source {{ local_home }}/.homesick/repos/dotfiles/home/.aliases.zsh' }
+
 
       
       
