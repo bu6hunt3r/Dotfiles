@@ -1,3 +1,4 @@
 * DONE Only deploy homeshick repo if not already present
 * DONE Deploy tmux plugin manager
 * TODO Add fzf and fkill into zsh
+* TODO Look into https://github.com/ivoarch/.dot-org-files
