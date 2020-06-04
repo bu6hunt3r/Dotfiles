@@ -1,0 +1,24 @@
+---
+- name: Tmux / zsh deployment
+  hosts: localhost
+  vars:
+    gen_warning: "WARINING! This file is controlled by Ansible."
+    local_home: "{{ lookup('env', 'HOME') }}"
+    local_user: "{{ lookup('env', 'USER') }}"
+  tasks:
+    - name: deploy homeshick
+      git:
+        repo: https://github.com/andsens/homeshick.git
+        dest: "{{ local_home }}/.homesick/repos/homeshick"
+    - name: Invoke homeshick in rc's (bash / zsh / fish)
+      shell: |
+        # from sh and its derivates (bash, dash, ksh, zsh etc.)
+        printf '\nsource "{{ local_home }}/.homesick/repos/homeshick/homeshick.sh"' >> "{{ local_home }}"/.bashrc
+        printf '\nsource "{{ local_home }}/.homesick/repos/homeshick/homeshick.sh"' >> "{{ local_home }}"/.zshrc
+        # fish shell
+        echo 'source "{{ local_home }}/.homesick/repos/homeshick/homeshick.fish"' >> "{{ local_home }}"/.config/fish/config.fish
+    - name: Create dotfile castle via homeshick
+      shell: |
+        "{{ local_home }}"/.homesick/repos/homeshick/bin/homeshick clone bu6hunt3r/dotfiles
+  
+
