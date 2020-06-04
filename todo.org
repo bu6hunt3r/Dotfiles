@@ -1,0 +1,2 @@
+* DONE Only deploy homeshick repo if not already present
+* TODO Deploy tmux plugin manager
