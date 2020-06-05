@@ -122,8 +122,8 @@ bind-key x split-window -v
 ** Moving panes
 
 #+BEGIN_SRC conf :tangle ./.tmux.conf
-bind-key g command-prompt -p "join pane from:"  "join-pane -s '%%'"
-bind-key s command-prompt -p "send pane to:"  "join-pane -t '%%'"
+bind-key g command-prompt -p "join pane from:"  "join-pane -s ':%%'"
+bind-key s command-prompt -p "send pane to:"  "join-pane -t ':%%'"
 #+END_SRC
 
 ** Make resizing panes easier
