@@ -45,13 +45,7 @@
         repo: https://github.com/tmux-plugins/tpm.git
         dest: "{{ local_home }}/.tmux/plugins/tpm"
       when: tpm_test.stat.islnk is not defined
-#    - name: Load aliases for zsh
-#      lineinfile:
-#        path: "{{ local_home }}/{{ item.dest }}"
-#        state: present
-#        line: "{{ item.line }}"
-#      with_items:
-#        - { dest: '.zshrc', line: 'source {{ local_home }}/.homesick/repos/dotfiles/home/.aliases.zsh' }
+
 
 
       

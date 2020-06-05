@@ -121,6 +121,7 @@
           - antibody
           # generic colourizer
           - grc
+          - fzf
           # A modern and intuitive terminal-based text editor 
           - micro
           # - vk-messenger
