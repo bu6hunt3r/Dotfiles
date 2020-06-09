@@ -122,7 +122,7 @@ setopt inc_append_history # Add comamnds as they are typed, don't wait until she
 setopt hist_find_no_dups  # When searching history don't display results already cycled through twice'
 setopt share_history      # Share command history data
 
-_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=cyan"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=cyan"
 bindkey '^f' vi-forward-blank-word
 
 eval `dircolors ~/.dircolors`

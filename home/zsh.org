@@ -73,6 +73,10 @@ ZSH_HIGHLIGHT_PATTERNS+=('sudo ' 'fg=white,bold')
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 #+END_SRC
+* Keybinds
+#+BEGIN_SRC shell :tangle ./.zshrc
+source ~/.zbindkeys
+#+END_SRC
 * Quoting URLs
 Functions to make it easier to type URLs as command line arguments.
 #+BEGIN_SRC shell :tangle ./.zshrc
@@ -208,7 +212,7 @@ setopt share_history      # Share command history data
 
 * Autosuggestions settings
 #+BEGIN_SRC shell :tangle ./.zshrc
-_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=cyan"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=cyan"
 bindkey '^f' vi-forward-blank-word
 #+END_SRC
 * Terminal
