@@ -1,5 +1,5 @@
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-
+source ~/.zbindkeys
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins
 
