@@ -1,0 +1,56 @@
+---
+- name: Tmux / zsh deployment
+  hosts: localhost
+  vars:
+    gen_warning: "WARINING! This file is controlled by Ansible."
+    local_home: "{{ lookup('env', 'HOME') }}"
+    local_user: "{{ lookup('env', 'USER') }}"
+  tasks:
+    - name: check homeshick's presence
+      stat:
+        path: "{{ local_home }}/.homesick/repos/homeshick"
+      register: homeshick_test
+    - name: check dofiles castle presence
+      stat:
+        path: "{{ local_home }}/.homesick/repos/dotfiles"
+      register: castle_test
+        
+    - name: deploy homeshick
+      git:
+        repo: https://github.com/andsens/homeshick.git
+        dest: "{{ local_home }}/.homesick/repos/homeshick"
+      when: homeshick_test.stat.islnk is not defined 
+    - name: Invoke homeshick in rc's (bash / zsh / fish)
+      lineinfile:
+        path: "{{ local_home }}/{{ item.dest }}"
+        state: present
+        line: "{{ item.line }}"
+      with_items:
+        - { dest: '.bashrc', line: 'source {{ local_home }}/.homesick/repos/homeshick/homeshick.sh' }
+        - { dest: '.zshrc', line: 'source {{ local_home }}/.homesick/repos/homeshick/homeshick.sh' }
+        - { dest: '.config/fish/config.fish', line: 'source {{ local_home }}/.homesick/repos/homeshick/homeshick.fish' }        
+    - name: Create dotfile castle via homeshick
+      shell: |
+        "{{ local_home }}"/.homesick/repos/homeshick/bin/homeshick clone bu6hunt3r/dotfiles
+      when: castle_test.stat.islnk is not defined
+    - name: Tangle config files with org-mode
+      shell: |
+        {{ local_home }}/.homesick/repos/dotfiles/home/scripts/tangle_configs.sh
+    - name: check for tpm's presence
+      stat:
+        path: "{{ local_home }}/.tmux/plugins/tpm"
+      register: tpm_test
+    - name: install tmux plugin manager if not already present
+      git:
+        repo: https://github.com/tmux-plugins/tpm.git
+        dest: "{{ local_home }}/.tmux/plugins/tpm"
+      when: tpm_test.stat.islnk is not defined
+
+
+
+      
+      
+        
+        
+  
+
