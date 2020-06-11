@@ -35,7 +35,7 @@ URxvt*scrollBar_right:   true
 
 URxvt*transparent:       false
 
-URxvt*font: xft:IBM 3270:size=11
+URxvt*font: xft:ibm3270:Regular:size=11
 URxvt*letterSpace: 0
 
 Rxvt.perl-ext-common: default,matcher
