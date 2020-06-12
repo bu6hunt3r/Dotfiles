@@ -1,5 +1,5 @@
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-source ~/.zbindkeys
+
 source <(antibody init)
 antibody bundle < ~/.zsh_plugins
 
@@ -49,6 +49,8 @@ ZSH_HIGHLIGHT_PATTERNS+=('sudo ' 'fg=white,bold')
 
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+
+source ~/.zbindkeys
 
 autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
