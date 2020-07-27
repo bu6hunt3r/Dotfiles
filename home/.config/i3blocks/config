@@ -26,5 +26,6 @@
 # Each block command defaults to the script name to avoid boilerplate.
 # Fetch the public IP address only on startup
 [public-ip]
-command=wget -qO - icanhazip.com
+command=echo "Public IP: $(wget -qO - icanhazip.com)"
 interval=once
+
