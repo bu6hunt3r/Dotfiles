@@ -299,6 +299,14 @@ label = %percentage_used%%
 format-prefix = " "
 format-prefix-foreground = #666
 
+[module/temperature]
+type = internal/temperature
+interval = 3
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input
+warn-temperature = 60
+label = %{F#ffa500}%{F-}%temperature-c%
+label-warn = TEMP %temperature-c%
+
 [module/wifi]
 type = internal/network
 interface = ${env:WIFIINTERFACE:wlp3s0}
