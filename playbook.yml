@@ -1,0 +1,124 @@
+---
+- name: Arch linux dotfiles provisioning
+  hosts: all
+  become: yes
+  vars:
+    gen_warning: "WARNING! This file is conmtrolled by Ansible."
+    local_home: "{{ lookup('env','HOME') }}"
+    local_user: "{{ lookup('env','USER') }}"
+  tasks:
+    - name: create and setup aur_builder user
+      user: name=aur_builder
+    - name: create normal user
+      user: name=cr0c0
+    - name: grant aur_builder more permissions
+      lineinfile:
+        path: /etc/sudoers.d/aur_builder-allow-to-sudo-pacman
+        state: present
+        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        validate: /usr/bin/visudo -cf %s
+        create: yes
+    - name: create dev dir
+      file:
+        path: "{{ local_home }}/dev"
+        state: directory
+        mode: '0755'
+    - name: packages
+      pacman:
+        update_cache: yes
+        name:
+          - acpid
+          - base-devel
+          - chrony
+          - xorg-server
+          - xorg-apps
+          - xf86-video-intel
+          - mesa
+          - gnome
+          - i3-wm
+          - networkmanager
+          - network-manager-applet
+          - nm-connection-editor
+          # - virtualbox-guest-utils
+          - emacs
+    
+    - name: AUR packages
+      aur:
+        name:
+          - i3-gnome
+      become: yes
+      become_user: aur_builder
+
+    - name: generate Xorg fonts index 100dpi
+      command: mkfontdir /usr/share/fonts/100dpi
+
+    - name: set x keyboard layout
+      blockinfile:
+        path: "/etc/X11/xorg.conf.d/00-keyboard.conf"
+        create: yes
+        content: |
+          Section "InputClass"
+            Identifier "system-keyboard"
+            MatchIsKeyboard "on"
+            Option "XkbLayout" "de,us"
+            Option "XkbOptions" "grp:caps_toggle,grp_led:caps"
+          EndSection
+    - name: Lock screen automatically from wake from sleep (suspend)
+      blockinfile:
+        path: "/etc/systemd/system/wakelock.service"
+        create: yes
+        content: |
+          [Unit]
+          Description=Runs i3lock from resume from a suspended state
+          Before=systemd-supended.service
+          
+          [Service]
+          User=cr0c0
+          Type=forking
+          Environment=DISPLAY=:0
+          ExecStart=/home/cr0c0/scripts/lock-screen.sh
+   
+          [Install]
+          WantedBy=sleep.target
+          WantedBy=suspend.target      
+    - name: Enable wakelock service
+      systemd:
+        enabled: yes
+        name: wakelock
+    - name: Enable and start acpid service
+      systemd:
+        enabled: yes
+        name: acpid
+        state: started
+    - name: Add NTP servers to chrony config
+      blockinfile:
+        path: /etc/chrony.conf
+        content: |
+          server 0.de.pool.ntp.org
+          server 1.de.pool.ntp.org
+          server 2.de.pool.ntp.org
+          server 3.de.pool.ntp.org
+    - name: Enable and start chronyd service
+      systemd:
+        enabled: yes
+        state: started
+        name: chronyd
+    - name: Disable pcspkr
+      modprobe:
+        name: pcspkr
+        state: absent
+    - name: Blacklist pcspkr
+      kernel_blacklist:
+        name: pcspkr
+        state: absent
+    - name: Enable NetworkManager
+      systemd:
+        enabled: yes
+        state: started
+        name: NetworkManager
+    - name: Enable gdm
+      systemd:
+        enabled: yes
+        state: started
+        name: gdm
+
