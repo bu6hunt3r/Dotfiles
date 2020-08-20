@@ -67,8 +67,12 @@ module-margin-left = 1
 module-margin-right = 2
 
 # Description - fonts determined via fc-match
+<<<<<<< HEAD
 #font-0 = "Hack:size=4;1"
 font-0 = "Noto Sans:size=5;1"
+=======
+;font-0 = "3270:size=4;1"
+>>>>>>> origin/tmux-continuum
 # Symbols
 font-1 = "Font Awesome 5 Free:style=Solid:size=8;1"
 font-2 = "Font Awesome 5 Brands:style=Solid:size=8;1"
@@ -76,7 +80,11 @@ font-2 = "Font Awesome 5 Brands:style=Solid:size=8;1"
 modules-left = i3
 ;modules-center =
 ;modules-right = mediacontrol brightnesscustom volume battery memory cpu wifi vpncheck updates date
+<<<<<<< HEAD
 modules-right = battery wifi volume fs-root bspwm memory cpu redshift date
+=======
+modules-right = tor_status wired fs-root bspwm memory cpu date
+>>>>>>> origin/tmux-continuum
 
 wm-restack = bspwm
 
@@ -478,6 +486,10 @@ toggle-off-foreground = #777
 ;bar-progress-empty = ─
 ;bar-progress-empty-foreground = #44
 ;bar-progress-empty-font = 3
+
+[module/tor_status]
+type=custom/script
+exec=~/.config/i3/polybar/tor_status.sh
 
 [module/power-menu]
 type = custom/menu

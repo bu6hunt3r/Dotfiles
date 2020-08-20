@@ -210,6 +210,7 @@ set -g status-right '#[bg=colour252,fg=colour236] LOAD #[default] #(python3 ~/sc
 set -g status-right-length 400
 set -g status-left-length 50
 setw -g automatic-rename off
+<<<<<<< HEAD
 #setw -g window-status-current-fg colour235
 #setw -g window-status-current-bg colour010
 setw -g window-status-separator " "
@@ -218,6 +219,16 @@ set-window-option -g window-status-current-style "fg=#000000,bg=#66d9ef"
 #set-window-option -g window-status-current-style "fg=colour235,bg=colout015"
 #setw -g window-status-style 'fg=colour235, bg colour015'
 #setw -g window-status-attr none
+=======
+setw -g window-status-current-fg colour235
+setw -g window-status-current-bg colour010
+setw -g window-status-current-attr bold
+setw -g window-status-separator " "
+setw -g window-status-current-format ' #W '  # #I. #W
+setw -g window-status-fg colour235
+setw -g window-status-bg colour015
+setw -g window-status-attr none
+>>>>>>> origin/tmux-continuum
 
 setw -g window-status-format ' #W '
 
