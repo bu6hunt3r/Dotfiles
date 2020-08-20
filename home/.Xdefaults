@@ -35,7 +35,8 @@ URxvt*scrollBar_right:   true
 
 URxvt*transparent:       false
 
-URxvt*font: xft:ibm3270:Regular:size=11
+! URxvt*font: xft:IBM 3270:size=11
+URxvt*font: xft:3270Medium Nerd Font Mono:size=11
 URxvt*letterSpace: 0
 
 Rxvt.perl-ext-common: default,matcher
@@ -54,6 +55,4 @@ URxvt.keysym.Meta-Left: builtin-string:
 
 URxvt.clipboard.autocopy: true
 URxvt.keysym.Shift-Control-V: eval:paste_clipboard
-
-
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $(xrandr | grep connected | grep -cv disconnected) -gt 2 ]]; then
+if [[ $(xrandr | grep connected | grep -cv disconnected) -ge 2 ]]; then
     export MULTIMONITOR=1
 else
     export MULTIMONITOR=0
@@ -14,6 +14,8 @@ killall -q polybar
 
 # Wait until the processes have been shut down
 while pgrep -u $USER -x polybar >/dev/null; do sleep 1; done
+
+echo "Multimonitor: $MULTIMONITOR"
 
 # Launch bars
 if [[ $MULTIMONITOR -eq 1 ]]; then

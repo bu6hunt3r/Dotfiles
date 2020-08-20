@@ -32,9 +32,9 @@ tray-padding = 4
 
 dpi = 220
 enable-ipc = true
-monitor = ${env:MONITORPRIMARY:eDP1}
+monitor = ${env:MONITORPRIMARY:VGA-0}
 width = 100%
-height = 45
+height = 35
 ;radius = 5.0
 ;fixed-center = false
 ;override-redirect = true
@@ -67,12 +67,8 @@ module-margin-left = 1
 module-margin-right = 2
 
 # Description - fonts determined via fc-match
-<<<<<<< HEAD
 #font-0 = "Hack:size=4;1"
 font-0 = "Noto Sans:size=5;1"
-=======
-;font-0 = "3270:size=4;1"
->>>>>>> origin/tmux-continuum
 # Symbols
 font-1 = "Font Awesome 5 Free:style=Solid:size=8;1"
 font-2 = "Font Awesome 5 Brands:style=Solid:size=8;1"
@@ -80,13 +76,9 @@ font-2 = "Font Awesome 5 Brands:style=Solid:size=8;1"
 modules-left = i3
 ;modules-center =
 ;modules-right = mediacontrol brightnesscustom volume battery memory cpu wifi vpncheck updates date
-<<<<<<< HEAD
-modules-right = battery wifi volume fs-root bspwm memory cpu redshift date
-=======
-modules-right = tor_status wired fs-root bspwm memory cpu date
->>>>>>> origin/tmux-continuum
+modules-right = volume fs-root bspwm memory redshift cpu date
 
-wm-restack = bspwm
+;wm-restack = bspwm
 
 ;dim-value = 0.2
 
@@ -106,9 +98,9 @@ bspwm-focused-underline = #cc333333
 
 [bar/top-secondary]
 enable-ipc = true
-monitor = ${env:MONITORSECONDARY:Virtual1}
+monitor = ${env:MONITORSECONDARY:HDMI-0}
 width = 100%
-height = 28
+height = 35
 ;radius = 5.0
 ;fixed-center = false
 ;override-redirect = true
@@ -141,10 +133,17 @@ module-margin-left = 1
 module-margin-right = 2
 
 # Description
-font-0 = "Hack:size=8;1"
+font-0 = "Noto Sans:size=11;1"
 # Symbols
 font-1 = "Font Awesome 5 Free:style=Solid:size=8;1"
 font-2 = "Font Awesome 5 Brands:style=Solid:size=8;1"
+
+
+# Description
+# font-0 = "Hack:size=8;1"
+# Symbols
+# font-1 = "Font Awesome 5 Free:style=Solid:size=8;1"
+# font-2 = "Font Awesome 5 Brands:style=Solid:size=8;1"
 
 modules-left = i3
 ;modules-center = mpd
@@ -187,7 +186,7 @@ format-prefix = " "
 exec = source ~/.config/i3/polybar/scripts/env.sh && ~/.config/i3/polybar/scripts/redshift.sh temperature 
 click-left = source ~/.config/i3/polybar/scripts/env.sh && ~/.config/i3/polybar/scripts/redshift.sh toggle 
 scroll-up = source ~/.config/i3/polybar/scripts/env.sh && ~/.config/i3/polybar/scripts/redshift.sh increase
-scroll-down = source ~/.config/i3polybar/scripts/env.sh && ~/.config/i3/polybar/scripts/redshift.sh decrease
+scroll-down = source ~/.config/i3/polybar/scripts/env.sh && ~/.config/i3/polybar/scripts/redshift.sh decrease
 interval=0.5
 
 [module/bspwm]
@@ -441,7 +440,7 @@ animation-charging-framerate = 750
 ;[module/battery-multi]
 ;type = custom/script
 ;exec = "count=$(acpi -b | wc -l); sum=$(acpi -b | egrep -o '[0-9]{1,3}%' | tr -d '%' | xargs -I% echo -n '+%'); echo $(date +%s) Avg
-capacity: $(( sum / count ))%"
+; capacity: $(( sum / count ))%"
 ;exec-if = pgrep -x watch
 ;interval = 3
 
@@ -576,22 +575,22 @@ format-prefix-foreground = #5b
 ; ramp-foreground = #666
 ; label-foreground = ${root.foreground}
 
-[module/brightnesscustom]
-type = custom/script
-exec = ~/.i3/scripts/getbrightness.sh
-interval = 5
-label = %{F#666}%{F-} %output%%
-format-prefix-background = #5b
-scroll-up = ~/.i3/scripts/setbrightness.sh 1
-scroll-down = ~/.i3/scripts/setbrightness.sh 0
+; [module/brightnesscustom]
+; type = custom/script
+; exec = ~/.i3/scripts/getbrightness.sh
+; interval = 5
+; label = %{F#666}%{F-} %output%%
+; format-prefix-background = #5b
+; scroll-up = ~/.i3/scripts/setbrightness.sh 1
+; scroll-down = ~/.i3/scripts/setbrightness.sh 0
 
-[module/mediacontrol]
-type = custom/script
-interval = 2
-label = %output:0:45:...%
-exec = ~/.i3/scripts/mediacontrol.sh
-click-left = playerctl previous
-click-middle = playerctl play-pause
-click-right = playerctl next
+; [module/mediacontrol]
+; type = custom/script
+; interval = 2
+; label = %output:0:45:...%
+; exec = ~/.i3/scripts/mediacontrol.sh
+; click-left = playerctl previous
+; click-middle = playerctl play-pause
+; click-right = playerctl next
 
 ; vim:ft=dosini
