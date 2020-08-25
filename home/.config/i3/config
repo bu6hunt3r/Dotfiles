@@ -4,7 +4,7 @@
 set $mod Mod4
 
 # set wallpaper
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/arch_bg.png
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/arch.png
 
 font pango:Noto Sans 8
 
@@ -176,8 +176,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pulseaudio-ctl down
 bindsym XF86AudioMute        exec --no-startup-id pulseaudio-ctl mute
 
 # Sreen brightness controls
-#bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 10 && dunstify -r 6661 `xbacklight -get`"
-#bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 10 && dunstify -r 6661 `xbacklight -get`"
+bindsym XF86MonBrightnessUp exec --no-startup-id "sudo xbacklight -inc 10 && dunstify -r 6661 `xbacklight -get`"
+bindsym XF86MonBrightnessDown exec --no-startup-id "sudo xbacklight -dec 10 && dunstify -r 6661 `xbacklight -get`"
 
 # PrtScr btn
 bindsym --release Print exec flameshot gui
@@ -205,3 +205,5 @@ exec_always --no-startup-id $HOME/.config/i3/polybar/launchPolybar.sh
 # autostart redshift
 exec --no-startup-id redshift
 
+# start dunst daemon
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
