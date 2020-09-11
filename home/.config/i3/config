@@ -4,7 +4,7 @@
 set $mod Mod4
 
 # set wallpaper
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/arch.png
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/pony.jpg
 
 font pango:Noto Sans 8
 
@@ -163,12 +163,39 @@ bindsym $mod+r mode "resize"
 # }
 
 client.focused          #166CDD #166CDD #EEEEEE #2e9ef4   #166CDD
-client.focused_inactive #555555 #555555 #EEEEEE #484e50   #555555
-client.unfocused        #555555 #555555 #EEEEEE #484e50   #555555
-client.urgent           #F41D1D #F41D1D #EEEEEE #900000   #F41D1D
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+#client.focused_inactive #555555 #555555 #EEEEEE #484e50   #555555
+#client.unfocused        #555555 #555555 #EEEEEE #484e50   #555555
+#client.urgent           #F41D1D #F41D1D #EEEEEE #900000   #F41D1D
+#client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-client.background       #ffffff
+#client.background       #ffffff
+
+# Custom colors
+set_from_resource $black       color8  #000000
+set_from_resource $darkblack   color0  #000000
+set_from_resource $darkred     color1  #000000
+set_from_resource $red         color9  #000000
+set_from_resource $darkgreen   color2  #000000
+set_from_resource $green       color10 #000000
+set_from_resource $darkyellow  color3  #000000
+set_from_resource $yellow      color11 #000000
+set_from_resource $darkblue    color4  #000000
+set_from_resource $blue        color12 #000000
+set_from_resource $darkmagenta color5  #000000
+set_from_resource $magenta     color13 #000000
+set_from_resource $darkcyan    color6  #000000
+set_from_resource $cyan        color14 #000000
+set_from_resource $white       color7  #000000
+set_from_resource $darkwhite   color15 #000000
+
+set $background  #000000
+set $darkblack   #10151b
+
+# Window colors           border       background   text            indicator    child_border
+client.focused            $darkred     $darkblack   $darkwhite      $darkblack  $darkblack
+client.focused_inactive   $darkblack   $darkblack   $white          $darkblack  $darkblack
+client.unfocused          $darkblack   $darkblack   $white          $darkblack  $darkblack
+client.urgent $darkblue   $darkblue    $white       $darkblack      $darkblack  $darkblack
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pulseaudio-ctl up
