@@ -76,7 +76,7 @@ font-2 = "Font Awesome 5 Brands:style=Solid:size=6;1"
 modules-left = i3 mediacontrol
 ;modules-center = player-mpv-tail
 ;modules-right = mediacontrol brightnesscustom volume battery memory cpu wifi vpncheck updates date
-modules-right = battery wifi volume fs-root bspwm memory cpu redshift date
+modules-right = battery bluetooth wifi volume fs-root bspwm memory cpu redshift date
 
 wm-restack = bspwm
 
@@ -587,5 +587,11 @@ click-right = playerctl next
 type = custom/script
 exec = ~/.config/i3/polybar/scripts/mpv-tail.sh
 tail = true
+
+[module/bluetooth]
+type = custom/script
+exec = ~/.config/i3/polybar/scripts/rofi-bluetooth --status
+interval = 1
+click-left = rofi-bluetooth &
 
 ; vim:ft=dosini

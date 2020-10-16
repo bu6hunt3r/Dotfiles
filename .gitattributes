@@ -1,0 +1,2 @@
+home/.mbsyncrc filter=git-crypt diff=git-crypt
+home/.msmtprc filter=git-crypt diff=git-crypt

@@ -11,8 +11,11 @@ Xft.hintstyle:              hintslight
 
 ! Dracula Xresources palette
 *.foreground: #F8F8F2
+!*.foreground:  #90ACBC
 ! *.background: #282A36
-*.background: #0C0A20
+
+!*.background: #0C0A20
+*.background: #17181B
 *.color0:     #000000
 *.color8:     #4D4D4D
 *.color1:     #FF5555
