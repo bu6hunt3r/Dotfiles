@@ -104,13 +104,13 @@
 * Set org-agenda path
 
 #+begin_src emacs-lisp
-(setq org-agenda-files (quote ("~/org/brain/todo.org")))
+(setq org-agenda-files (quote ("~/Dropbox/Dokumente/Orgzly/todo.org")))
 #+end_src
 
 * Org-roam settings
 
 #+begin_src emacs-lisp
-(setq org-roam-directory "/tmp/brain")
+(setq org-roam-directory "~/org/brain/roam")
 (require 'company-org-roam)
 (use-package company-org-roam
   :when (featurep! :completion company)
