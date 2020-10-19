@@ -48,6 +48,10 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 #+end_src
+* Set org-default-notes-file
+#+begin_src emacs-lisp
+(setq org-default-notes-file "~/Dropbox/Dokumente/Orgzly/todo.org")
+#+end_src
 * Enable line numbering
 
 #+begin_src emacs-lisp
@@ -111,6 +115,7 @@
 
 #+begin_src emacs-lisp
 (setq org-roam-directory "~/org/brain/roam")
+(setq org-roam-db-location "~/org/brain/roam/org-roam.db")
 (require 'company-org-roam)
 (use-package company-org-roam
   :when (featurep! :completion company)
@@ -119,11 +124,62 @@
   (set-company-backend! 'org-mode '(company-org-roam company-yasnippet company-dabbrev)))
 #+end_src
 
+* Org-brain settings
+#+begin_src emacs-lisp
+(use-package! org-brain
+  :config
+  (setq org-brain-path "~/org/brain"))
+
+;; ascii-art-to-unicode settings
+(defface aa2u-face '((t . nil))
+  "Face for aa2u box drawing characters")
+(advice-add #'aa2u-1c :filter-return
+      (lambda (str) (propertize str 'face 'aa2u-face)))
+(defun aa2u-org-brain-buffer ()
+  (let ((inhibit-read-only t))
+    (make-local-variable 'face-remapping-alist)
+    (add-to-list 'face-remapping-alist
+   '(aa2u-face . org-brain-wires))
+    (ignore-errors (aa2u (point-min) (point-max)))))
+(with-eval-after-load 'org-brain
+  (add-hook 'org-brain-after-visualize-hook #'aa2u-org-brain-buffer))
+
+#+end_src
+
+* Deft settings
+#+begin_src emacs-lisp
+(after! org
+  (use-package! deft
+    :config
+    (progn
+      (setq deft-recursive t)
+      (setq deft-use-filter-string-for-filename t)
+      (setq deft-default-extension "org")
+      (setq deft-directory "~/org/brain/roam/"))))
+#+end_src
+
 * Org capture
 #+begin_src emacs-lisp
-(setq org-capture-templates
-      '(("r" "reply" entry (file+headline "~/org/brain/todo.org" "Mails to reply to")
-         "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n")))
+(setq! +org-capture-todo-file "~/Dropbox/Dokumente/Orgzly/todo.org")
+;; (after! org
+;;   (add-to-list 'org-capture-templates
+;;       '(("R" "2Read" entry (file+headline +org-capture-todo-file "2Read")
+;;          "* TODO %?"
+;;          :prepend t :kill-buffer t))))
+(after! org
+  (setq org-capture-templates
+      '(("b" "Burocracy" entry (file+headline +org-capture-todo-file "Burocracy")
+         "* TODO %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))" :empty-lines 1)
+        ("B" "Books" entry (file+headline +org-capture-todo-file "Books")
+         "* TODO %?" :empty-lines 1)
+        ("a" "Another" entry (file+headline +org-capture-todo-file "Another")
+         "* TODO %?" :empty-lines 1)
+        ("R" "2Read" entry (file+headline +org-capture-todo-file "2Read")
+         "* TODO %?" :empty-lines 1)
+        ("l" "Learn" entry (file+headline +org-capture-todo-file "Learn")
+         "* TODO %?" :empty-lines 1)
+        ("r" "reply" entry (file+headline org-default-notes-file "Mails to reply to")
+         "* TODO [#A] %?\nSCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+0d\"))\n%a\n" :empty-lines 1))))
 #+end_src
 * highlight-indent-guides
 #+begin_src emacs-lisp
@@ -205,4 +261,9 @@ Make scratchbuffer inherit the major mode of current buffer
 #+begin_src emacs-lisp
   (setq doom-modeline-major-mode-color-icon t)
   (setq doom-modeline-github t)
+#+end_src
+
+* Rust settings
+#+begin_src emacs-lisp
+(setq exec-path (append exec-path '("~/.cargo/bin")))
 #+end_src

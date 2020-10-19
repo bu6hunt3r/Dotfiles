@@ -57,3 +57,9 @@
 (package! undo-tree)
 (package! highlight-indent-guides)
 (package! dictcc)
+(package! ascii-art-to-unicode)
+(package! org-brain
+  :recipe (:host github :repo "Kungsgeten/org-brain"))
+(package! helm-org)
+(package! helm-org-rifle)
+(package! telega)
