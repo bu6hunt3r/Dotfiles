@@ -17,5 +17,4 @@
       private: no
 
   roles:
-    - dotfiles
-
+    - { role: dotfiles }

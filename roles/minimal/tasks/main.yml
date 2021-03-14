@@ -1,0 +1,15 @@
+---
+
+- name: Install general dependencies via package manager
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - ranger
+    - zsh
+    - wget
+    - curl
+    - tmux
+    - cmake
+    - zsh

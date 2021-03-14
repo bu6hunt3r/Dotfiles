@@ -18,7 +18,7 @@ deploy: ## Run all roles
 ansible: ## Install ansible
 	if which pacman; then \
 		sudo pacman --noconfirm -S ansible; \
-	elif [[ $$(cat /etc/os-release  | grep debian | wc -l) -gt 0 ]]; then \
+	elif [ $$(cat /etc/os-release  | grep debian | wc -l) -gt 0 ]; then \
 		sudo apt-get update && \
 		sudo apt-get -y install gnupg && \
 		sudo echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.list && \
@@ -32,3 +32,6 @@ ansible: ## Install ansible
 		sudo apt-get update && \
 		sudo apt-get install -y ansible; \
 fi
+
+test: ## Perform travis tests
+	ansible-playbook -i "localhost," -c local .deployTest.yml
