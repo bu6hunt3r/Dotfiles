@@ -13,6 +13,15 @@
     - zsh
   become: yes
   become_method: sudo
+  tags:
+    - packages
 
 - name: Install doom emacs
   include: doom-emacs.yml
+  tags:
+    - emacs
+
+- name: Install tmux plugin manager
+  include: tmux.yml
+  tags:
+    - tmux
