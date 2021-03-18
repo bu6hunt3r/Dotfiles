@@ -12,3 +12,5 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:background "#0a0f14"))))
  '(doom-modeline-buffer-modified ((t (:foreground "blue")))))
+(put 'customize-group 'disabled nil)
+(put 'narrow-to-region 'disabled nil)

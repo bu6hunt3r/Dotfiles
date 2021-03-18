@@ -63,3 +63,5 @@
 (package! helm-org)
 (package! helm-org-rifle)
 (package! telega)
+(package! company-posframe)
+(package! habitica)

@@ -4,7 +4,8 @@
 set $mod Mod4
 
 # set wallpaper
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/arch.png
+#exec_always --no-startup-id feh --bg-scale ~/.config/i3/arch.png
+exec_always --no-startup-id feh --bg-scale ~/Pictures/arch_bg2.png
 
 # launch conky
 exec_always --no-startup-id conky

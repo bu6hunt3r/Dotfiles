@@ -111,6 +111,11 @@
 (setq org-agenda-files (quote ("~/Dropbox/Dokumente/Orgzly/todo.org")))
 #+end_src
 
+* Enable org-superstar-mode
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+#+END_SRC
+
 * Org-roam settings
 
 #+begin_src emacs-lisp
@@ -202,7 +207,6 @@
   (set-face-attribute 'highlight-indent-guides-even-face nil :inherit 'highlight-indentation-even-face)
   (set-face-foreground 'highlight-indent-guides-character-face (doom-color 'base5)))
 #+end_src
-
 * Scratch buffer
 
 Make scratchbuffer inherit the major mode of current buffer
@@ -254,7 +258,7 @@ Make scratchbuffer inherit the major mode of current buffer
 #+end_src
 * ui/dashboard
 #+begin_src emacs-lisp
-(setq +doom-dashboard-banner-file (expand-file-name "banners/doom.png" doom-private-dir))
+(setq +doom-dashboard-banner-file (expand-file-name "banners/doom-emacs-bw-dark.png" doom-private-dir))
 #+end_src
 
 * ui/modeline
@@ -266,4 +270,10 @@ Make scratchbuffer inherit the major mode of current buffer
 * Rust settings
 #+begin_src emacs-lisp
 (setq exec-path (append exec-path '("~/.cargo/bin")))
+#+end_src
+
+* Habitica settings
+#+begin_src emacs-lisp
+(setq habitica-uid "31c13a35-0d08-47b5-afae-cc99303c14b6")
+(setq habitica-token "76b9c276-6c14-4903-bce7-ff605fcc3b4d")
 #+end_src
