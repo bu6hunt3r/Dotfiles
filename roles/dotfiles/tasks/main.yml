@@ -8,6 +8,11 @@
     - curl
     - fontconfig
     - git
+    - tmux
     - wget
+    - zsh
   become: yes
   become_method: sudo
+
+- name: Install doom emacs
+  include: doom-emacs.yml

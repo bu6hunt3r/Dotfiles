@@ -1,0 +1,18 @@
+---
+- name: Install emacs
+  package: 
+    name: emacs
+    state: latest
+  become: yes
+  become_method: sudo
+
+- name: Clone doom emacs repo
+  git: 
+    repo: https://github.com/hlissner/doom-emacs
+    version: master
+    depth: 1
+    dest: ~/.emacs.d
+  become: no
+
+- name: Install doom emacs
+  shell: ~/.emacs.d/bin/doom install
